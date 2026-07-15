@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Service Pro Premium - Template Inteligente</title>
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Fontes opcionais -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Onboarding: escolha do nicho -->
+  <section id="onboarding" class="onboarding">
+    <h1>Qual é a área do seu negócio?</h1>
+    <div class="grid-nichos">
+      <button onclick="selecionarNicho('academia')">🏋️ Academia</button>
+      <button onclick="selecionarNicho('advogado')">⚖️ Advogado</button>
+      <button onclick="selecionarNicho('dentista')">🦷 Dentista</button>
+      <button onclick="selecionarNicho('estetica')">💄 Estética</button>
+      <button onclick="selecionarNicho('mecanico')">🔧 Mecânico</button>
+      <button onclick="selecionarNicho('engenharia')">🏗️ Engenharia</button>
+      <button onclick="selecionarNicho('fotografo')">📸 Fotógrafo</button>
+      <button onclick="selecionarNicho('outro')">✨ Outro</button>
+    </div>
+  </section>
+
+  <!-- Template dinâmico (preenchido via JS) -->
+  <main id="site-preview" style="display:none;"></main>
+
+  <!-- WhatsApp Float -->
+  <a href="https://wa.me/5599999999999" class="whatsapp-float" aria-label="Fale conosco no WhatsApp">💬</a>
+
+  <!-- Scripts -->
+  <script src="js/nichos.js"></script>
+  <script src="js/blocos.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
