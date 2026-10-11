@@ -1,0 +1,1570 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prisma Gráfica — Demo | JOVEMODERNO</title>
+<meta name="description" content="Demonstração pública de página de vendas para gráfica: calculadora de orçamento em tempo real e envio de pedido direto pelo WhatsApp. Dados fictícios.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#C8007A">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23C8007A'/><circle cx='16' cy='16' r='7' fill='%23FFE600'/></svg>">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Prisma Gráfica — Demo JOVEMODERNO">
+<meta property="og:description" content="Demonstração de página de vendas para gráfica com calculadora de orçamento e pedido via WhatsApp.">
+<meta property="og:locale" content="pt_BR">
+<meta name="twitter:card" content="summary_large_image">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Prisma Gráfica (demonstração)",
+  "description": "Demonstração pública — dados fictícios.",
+  "telephone": "+5561900000000",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Endereço fictício, 0 — Sala 00",
+    "addressLocality": "Brasília",
+    "addressRegion": "DF",
+    "postalCode": "00000-000",
+    "addressCountry": "BR"
+  },
+  "areaServed": "Brasília - DF",
+  "priceRange": "$$"
+}
+</script>
+
+<style>
+/* ============================================================
+   PALETA / TOKENS
+============================================================ */
+:root{
+  --bg:#fff;
+  --bg2:#f6f6f9;
+  --tx:#14171f;
+  --mut:#5b6474;
+  --bd:#e6e8ee;
+  --r:16px;
+  --r-sm:10px;
+
+  /* cores da empresa — MANTIDAS */
+  --y:#FFE600;
+  --m:#C8007A;
+  --c:#00A0DC;
+
+  --y-soft:#fff9b3;
+  --m-soft:#fbe0f1;
+  --c-soft:#d6effb;
+
+  --ok:#1FA855;
+  --er:#d92d20;
+
+  --shadow-sm:0 2px 6px rgba(20,23,31,.06);
+  --shadow-md:0 10px 24px rgba(20,23,31,.08);
+  --shadow-lg:0 24px 60px rgba(20,23,31,.14);
+  --shadow-m:0 12px 30px rgba(200,0,122,.28);
+  --shadow-c:0 12px 30px rgba(0,160,220,.28);
+  --shadow-y:0 12px 30px rgba(255,230,0,.35);
+
+  --grad-tri: linear-gradient(135deg,var(--c) 0%,var(--m) 50%,var(--y) 100%);
+  --grad-mc:  linear-gradient(135deg,var(--m),var(--c));
+  --grad-cy:  linear-gradient(135deg,var(--c),var(--y));
+  --grad-myc: linear-gradient(90deg,var(--c) 0%,var(--m) 50%,var(--y) 100%);
+}
+
+@media(prefers-color-scheme:dark){
+  :root{
+    --bg:#0d0f14;
+    --bg2:#141821;
+    --tx:#f2f3f7;
+    --mut:#98a0b0;
+    --bd:#232838;
+    --y-soft:#3a3400;
+    --m-soft:#3b0025;
+    --c-soft:#00293c;
+    --shadow-lg:0 24px 60px rgba(0,0,0,.5);
+  }
+}
+
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{
+  font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  background:var(--bg);color:var(--tx);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+:focus-visible{outline:3px solid var(--c);outline-offset:3px;border-radius:6px}
+img{max-width:100%;display:block}
+::selection{background:var(--m);color:#fff}
+
+/* ============================================================
+   BANNER DEMO
+============================================================ */
+.demo-banner{
+  position:fixed;top:0;left:0;right:0;z-index:60;
+  background:linear-gradient(90deg,#1a1a1a,#2a2a2a,#1a1a1a);
+  color:#fff;
+  display:flex;align-items:center;justify-content:center;gap:14px;
+  padding:9px 16px;
+  font-size:13px;font-weight:600;
+  border-bottom:2px solid var(--m);
+  box-shadow:0 4px 20px rgba(0,0,0,.4);
+}
+.demo-banner b{
+  background:var(--grad-mc);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  letter-spacing:.06em;text-transform:uppercase;font-size:12px;
+}
+.demo-banner a{
+  color:var(--y);text-decoration:none;
+  border-bottom:1px dashed var(--y);
+  padding-bottom:1px;
+}
+.demo-banner a:hover{color:#fff;border-color:#fff}
+body{padding-top:38px}
+@media(max-width:600px){
+  .demo-banner{font-size:11px;padding:7px 12px;gap:8px}
+  .demo-banner span:not(.keep){display:none}
+}
+
+/* ============================================================
+   ANIMAÇÕES
+============================================================ */
+@keyframes gradientShift{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+@keyframes floatY{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-18px)}
+}
+@keyframes pulseRing{
+  0%{box-shadow:0 0 0 0 rgba(31,168,85,.55)}
+  70%{box-shadow:0 0 0 18px rgba(31,168,85,0)}
+  100%{box-shadow:0 0 0 0 rgba(31,168,85,0)}
+}
+@keyframes shine{
+  0%{transform:translateX(-120%)}
+  100%{transform:translateX(220%)}
+}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(24px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes barberPole{
+  to{background-position:120px 0}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}
+  html{scroll-behavior:auto}
+}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:none}
+
+/* ============================================================
+   TOPBAR
+============================================================ */
+.topo{
+  position:sticky;top:38px;z-index:30;
+  display:flex;justify-content:space-between;align-items:center;
+  gap:12px;flex-wrap:wrap;padding:12px 5%;
+  background:color-mix(in srgb,var(--bg) 85%,transparent);
+  backdrop-filter:saturate(1.2) blur(12px);
+  -webkit-backdrop-filter:saturate(1.2) blur(12px);
+  border-bottom:1px solid var(--bd);
+}
+.topo::after{
+  content:"";position:absolute;left:0;right:0;bottom:-1px;height:3px;
+  background:var(--grad-myc);background-size:200% 100%;
+  animation:gradientShift 8s ease infinite;
+}
+.logo{
+  display:flex;align-items:center;gap:10px;
+  color:var(--tx);text-decoration:none;font-weight:800;font-size:18px;letter-spacing:-.01em;
+  position:relative;
+}
+.logo-mark{
+  width:46px;height:46px;border-radius:50%;
+  background:conic-gradient(from 0deg,var(--c),var(--m),var(--y),var(--c));
+  display:grid;place-items:center;
+  color:#fff;font-weight:900;font-size:20px;
+  box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--m);
+  transition:transform .4s cubic-bezier(.34,1.56,.64,1);
+}
+.logo:hover .logo-mark{transform:rotate(-8deg) scale(1.05)}
+.logo b{
+  background:var(--grad-mc);-webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.logo small{font-weight:500;color:var(--mut);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+
+nav{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+nav a{
+  color:var(--tx);text-decoration:none;font-size:14px;font-weight:500;
+  padding:8px 12px;border-radius:99px;position:relative;
+  transition:color .2s,background .2s;
+}
+nav a:hover{background:var(--m-soft);color:var(--m)}
+nav a::after{
+  content:"";position:absolute;left:12px;right:12px;bottom:4px;height:2px;
+  background:var(--grad-myc);transform:scaleX(0);transform-origin:left;
+  transition:transform .3s ease;
+}
+nav a:hover::after{transform:scaleX(1)}
+nav a.btn-carrinho{background:var(--bg2);font-weight:600}
+nav a.btn-carrinho:hover{background:var(--m);color:#fff}
+nav a.btn-carrinho:hover::after{display:none}
+.btn-carrinho span{
+  background:var(--m);color:#fff;border-radius:99px;padding:1px 8px;
+  font-size:12px;margin-left:4px;font-weight:700;
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+}
+.btn-carrinho:hover span{background:var(--y);color:#14171f;transform:scale(1.15)}
+
+.burger{
+  display:none;background:none;border:1px solid var(--bd);
+  border-radius:10px;padding:8px 12px;cursor:pointer;color:var(--tx);font-size:18px;
+  transition:background .2s;
+}
+.burger:hover{background:var(--bg2)}
+
+.faixa{
+  height:6px;
+  background:
+    repeating-linear-gradient(135deg,
+      var(--c) 0 30px,
+      var(--m) 30px 60px,
+      var(--y) 60px 90px);
+  background-size:120px 100%;
+  animation:barberPole 8s linear infinite;
+}
+
+/* ============================================================
+   BOTÕES
+============================================================ */
+.btn{
+  display:inline-flex;align-items:center;gap:8px;justify-content:center;
+  background:var(--m);color:#fff;border:0;border-radius:12px;
+  padding:13px 24px;font-size:15px;font-weight:600;cursor:pointer;
+  text-decoration:none;position:relative;overflow:hidden;
+  box-shadow:var(--shadow-m);
+  transition:transform .15s ease,box-shadow .25s ease,background .2s;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(200,0,122,.4)}
+.btn:active{transform:translateY(0)}
+.btn::before{
+  content:"";position:absolute;top:0;left:0;width:60%;height:100%;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,.35),transparent);
+  transform:translateX(-120%);pointer-events:none;
+}
+.btn:hover::before{animation:shine .9s ease}
+
+.btn.wa{background:var(--ok);box-shadow:0 12px 30px rgba(31,168,85,.28)}
+.btn.wa:hover{box-shadow:0 16px 34px rgba(31,168,85,.42)}
+.btn.o{background:none;color:var(--tx);border:1.5px solid var(--tx);box-shadow:none}
+.btn.o:hover{background:var(--tx);color:var(--bg);box-shadow:var(--shadow-md)}
+.btn[disabled]{opacity:.55;cursor:not-allowed;transform:none;box-shadow:none}
+
+/* ============================================================
+   HERO
+============================================================ */
+.hero{
+  position:relative;display:grid;grid-template-columns:1.15fr 1fr;
+  gap:40px;align-items:center;padding:72px 5% 80px;
+  overflow:hidden;
+  background:
+    radial-gradient(60% 70% at 85% 20%, rgba(0,160,220,.10), transparent 60%),
+    radial-gradient(50% 60% at 10% 90%, rgba(200,0,122,.10), transparent 60%),
+    radial-gradient(40% 60% at 50% 50%, rgba(255,230,0,.14), transparent 65%);
+}
+.hero::before{
+  content:"";position:absolute;top:-80px;right:-120px;width:420px;height:420px;
+  background:radial-gradient(circle, rgba(255,230,0,.35), transparent 65%);
+  border-radius:50%;filter:blur(30px);animation:floatY 9s ease-in-out infinite;
+  pointer-events:none;
+}
+.hero::after{
+  content:"";position:absolute;bottom:-120px;left:-100px;width:380px;height:380px;
+  background:radial-gradient(circle, rgba(0,160,220,.28), transparent 65%);
+  border-radius:50%;filter:blur(30px);animation:floatY 11s ease-in-out infinite reverse;
+  pointer-events:none;
+}
+.hero>div{position:relative;z-index:2}
+.hero h1{
+  font-size:clamp(34px,5.2vw,58px);line-height:1.05;
+  letter-spacing:-.02em;font-weight:800;margin-bottom:18px;
+}
+.hero h1 .gr{
+  background:var(--grad-tri);background-size:200% 200%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:gradientShift 6s ease infinite;
+}
+.hero p{color:var(--mut);margin-bottom:26px;max-width:52ch;font-size:17px}
+.acts{display:flex;gap:12px;flex-wrap:wrap}
+
+.hero-art{
+  position:relative;z-index:2;
+  width:100%;max-width:440px;margin:auto;
+  aspect-ratio:1;
+  border-radius:24px;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255,230,0,.5), transparent 55%),
+    radial-gradient(circle at 70% 60%, rgba(200,0,122,.5), transparent 55%),
+    radial-gradient(circle at 50% 90%, rgba(0,160,220,.5), transparent 55%),
+    linear-gradient(135deg,#14171f,#2a1a30);
+  box-shadow:var(--shadow-lg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:14px;
+  animation:floatY 7s ease-in-out infinite;
+  overflow:hidden;
+  transition:transform .5s ease;
+}
+.hero-art:hover{transform:scale(1.02)}
+.hero-art::before{
+  content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(45deg,transparent 0 22px,rgba(255,255,255,.04) 22px 23px);
+}
+.hero-art-mark{
+  width:110px;height:110px;border-radius:50%;
+  background:conic-gradient(from 0deg,var(--c),var(--m),var(--y),var(--c));
+  display:grid;place-items:center;
+  color:#fff;font:900 44px system-ui,sans-serif;
+  box-shadow:0 20px 50px rgba(0,0,0,.4);
+  position:relative;
+}
+.hero-art-label{
+  font:800 14px system-ui,sans-serif;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:#fff;
+  opacity:.85;
+  position:relative;
+}
+.hero-art-sub{
+  font:500 12px system-ui,sans-serif;
+  color:rgba(255,255,255,.6);
+  letter-spacing:.06em;
+  position:relative;
+}
+
+.badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.badge{
+  background:var(--bg);border:1px solid var(--bd);border-radius:99px;
+  padding:7px 14px;font-size:13px;color:var(--mut);font-weight:500;
+  box-shadow:var(--shadow-sm);
+  transition:transform .25s ease,box-shadow .25s ease,color .2s;
+  position:relative;
+}
+.badge::before{
+  content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);
+  width:8px;height:8px;border-radius:50%;background:var(--y);
+  box-shadow:0 0 0 2px color-mix(in srgb,var(--y) 30%,transparent);
+  margin-left:8px;
+}
+.badge{padding-left:24px}
+.badge:nth-child(2)::before{background:var(--m)}
+.badge:nth-child(3)::before{background:var(--c)}
+.badge:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);color:var(--tx)}
+
+/* ============================================================
+   SEÇÕES
+============================================================ */
+.sec{padding:72px 5%;position:relative}
+.sec.alt{background:var(--bg2)}
+.sec h2{
+  font-size:clamp(24px,3vw,34px);margin-bottom:10px;letter-spacing:-.01em;
+  position:relative;display:inline-block;
+}
+.sec h2::after{
+  content:"";display:block;width:64px;height:5px;border-radius:99px;
+  background:var(--grad-myc);margin-top:12px;
+  background-size:200% 100%;animation:gradientShift 6s ease infinite;
+}
+.sub{color:var(--mut);margin-bottom:28px;max-width:64ch;font-size:16px}
+
+.grid{display:grid;gap:20px}
+.g4{grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+.g3{grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+.g2{grid-template-columns:repeat(auto-fill,minmax(320px,1fr))}
+
+/* ============================================================
+   CARDS
+============================================================ */
+.card{
+  background:var(--bg);border:1px solid var(--bd);border-radius:var(--r);
+  overflow:hidden;display:flex;flex-direction:column;
+  position:relative;
+  transition:transform .3s cubic-bezier(.34,1.4,.64,1),box-shadow .3s ease,border-color .3s;
+}
+.card::before{
+  content:"";position:absolute;inset:0;border-radius:var(--r);pointer-events:none;
+  padding:1.5px;
+  background:var(--grad-myc);background-size:200% 100%;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+          mask-composite:exclude;
+  opacity:0;transition:opacity .3s ease;
+}
+.card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+.card:hover::before{opacity:1}
+
+.card img,.ph{width:100%;aspect-ratio:4/3;object-fit:cover;transition:transform .6s ease}
+.card:hover img{transform:scale(1.06)}
+.ph{
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,var(--m),var(--c));color:#fff;
+  text-align:center;padding:12px;font-size:14px;font-weight:600;
+  letter-spacing:.02em;position:relative;overflow:hidden;
+}
+.ph::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.25) 50%,transparent 70%);
+  transform:translateX(-100%);transition:transform .8s ease;
+}
+.card:hover .ph::after{transform:translateX(100%)}
+
+.card-b{padding:18px;display:flex;flex-direction:column;gap:8px;flex:1}
+.card-b h3{font-size:17px;letter-spacing:-.01em}
+.card-b p{color:var(--mut);font-size:14px;flex:1}
+.preco{
+  font-weight:700;font-size:15px;color:var(--m);
+  display:inline-block;padding:3px 10px;border-radius:99px;
+  background:var(--m-soft);
+}
+.card-b .btn{padding:10px 16px;font-size:14px;align-self:flex-start;margin-top:4px}
+
+/* ============================================================
+   STEPS
+============================================================ */
+.steps{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:24px;counter-reset:s;margin-top:16px;
+}
+.step{
+  background:var(--bg);border:1px solid var(--bd);border-radius:var(--r);
+  padding:26px 20px 22px;position:relative;
+  transition:transform .3s ease,box-shadow .3s;
+}
+.step:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
+.step::before{
+  counter-increment:s;content:counter(s);
+  position:absolute;top:-18px;left:20px;
+  width:44px;height:44px;border-radius:50%;
+  background:var(--grad-tri);background-size:200% 200%;
+  animation:gradientShift 6s ease infinite;
+  color:#fff;font-weight:800;font-size:18px;
+  display:grid;place-items:center;
+  box-shadow:var(--shadow-md);
+}
+.step h3{margin:16px 0 6px;font-size:17px}
+.step p{color:var(--mut);font-size:14px}
+
+/* ============================================================
+   FAQ
+============================================================ */
+.faq{display:grid;gap:12px;max-width:840px}
+.faq details{
+  background:var(--bg);border:1px solid var(--bd);border-radius:var(--r);
+  padding:16px 20px;
+  transition:box-shadow .25s,border-color .25s;
+}
+.faq details:hover{box-shadow:var(--shadow-sm);border-color:color-mix(in srgb,var(--m) 40%,var(--bd))}
+.faq details[open]{box-shadow:var(--shadow-md);border-color:var(--m)}
+.faq summary{
+  cursor:pointer;font-weight:600;list-style:none;
+  display:flex;justify-content:space-between;gap:10px;align-items:center;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{
+  content:"+";color:var(--m);font-weight:800;font-size:20px;line-height:1;
+  width:28px;height:28px;border-radius:50%;background:var(--m-soft);
+  display:grid;place-items:center;
+  transition:transform .3s ease,background .3s;
+}
+.faq details[open] summary::after{content:"–";background:var(--m);color:#fff;transform:rotate(180deg)}
+.faq p{margin-top:12px;color:var(--mut);font-size:14px;animation:fadeUp .35s ease}
+
+/* ============================================================
+   DEPOIMENTOS
+============================================================ */
+.depo{
+  background:var(--bg);border:1px solid var(--bd);border-radius:var(--r);
+  padding:22px;display:flex;flex-direction:column;gap:10px;
+  position:relative;overflow:hidden;
+  transition:transform .3s ease,box-shadow .3s;
+}
+.depo::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:4px;
+  background:var(--grad-myc);background-size:200% 100%;
+  animation:gradientShift 8s ease infinite;
+}
+.depo:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
+.depo .stars{color:#f5a524;font-size:15px;letter-spacing:2px}
+.depo p{color:var(--tx);font-size:15px;font-style:italic}
+.depo small{color:var(--mut);font-weight:600}
+
+/* ============================================================
+   PAGAMENTO
+============================================================ */
+.pgto{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
+.pgto span{
+  background:var(--bg);border:1.5px solid var(--bd);border-radius:12px;
+  padding:12px 18px;font-size:14px;font-weight:600;color:var(--tx);
+  transition:transform .25s ease,border-color .25s,box-shadow .25s,background .25s;
+  position:relative;
+}
+.pgto span:hover{transform:translateY(-3px);border-color:var(--c);box-shadow:var(--shadow-c)}
+.pgto span:nth-child(2):hover{border-color:var(--m);box-shadow:var(--shadow-m)}
+.pgto span:nth-child(3):hover{border-color:var(--y);box-shadow:var(--shadow-y)}
+.pgto span:nth-child(4):hover{border-color:var(--c);box-shadow:var(--shadow-c)}
+
+.mapa{
+  border-radius:var(--r);overflow:hidden;border:1px solid var(--bd);
+  aspect-ratio:16/9;width:100%;
+  box-shadow:var(--shadow-md);
+  background:
+    radial-gradient(circle at 50% 50%, rgba(200,0,122,.15), transparent 60%),
+    linear-gradient(135deg,#eef1f7,#e2e6ee);
+  display:grid;place-items:center;
+  text-align:center;
+  padding:20px;
+  transition:transform .3s ease;
+}
+.mapa:hover{transform:scale(1.01)}
+.mapa-inner{color:var(--mut);font-size:14px;font-weight:600}
+.mapa-inner b{display:block;color:var(--tx);font-size:16px;margin-bottom:6px;font-weight:800}
+
+/* ============================================================
+   CALCULADORA / FORM
+============================================================ */
+.calc{display:grid;grid-template-columns:1.4fr 1fr;gap:28px;align-items:start}
+.calc-form{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+label{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--mut);font-weight:600}
+label.check{flex-direction:row;align-items:center;gap:10px;grid-column:1/-1;font-weight:500}
+label:has(textarea){grid-column:1/-1}
+label input,.calc-form input,
+input,select,textarea{
+  font:inherit;color:var(--tx);background:var(--bg);
+  border:1.5px solid var(--bd);border-radius:var(--r-sm);padding:11px 13px;width:100%;
+  transition:border-color .2s,box-shadow .2s,background .2s;
+}
+input:hover,select:hover,textarea:hover{border-color:color-mix(in srgb,var(--c) 40%,var(--bd))}
+input:focus,select:focus,textarea:focus{
+  outline:none;border-color:var(--m);
+  box-shadow:0 0 0 4px color-mix(in srgb,var(--m) 15%,transparent);
+}
+input.err,select.err{border-color:var(--er);box-shadow:0 0 0 4px color-mix(in srgb,var(--er) 15%,transparent)}
+
+.resumo{
+  position:sticky;top:96px;
+  background:var(--bg);border:1px solid var(--bd);border-radius:var(--r);
+  padding:22px;display:flex;flex-direction:column;gap:14px;
+  box-shadow:var(--shadow-md);
+  overflow:hidden;
+}
+.resumo::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:5px;
+  background:var(--grad-myc);background-size:200% 100%;
+  animation:gradientShift 6s ease infinite;
+}
+.resumo h3{font-size:16px;letter-spacing:.02em;text-transform:uppercase;color:var(--mut);font-weight:700}
+.resumo dl{display:grid;gap:8px}
+.resumo dl div,.total{display:flex;justify-content:space-between;gap:8px}
+.resumo dt{color:var(--mut);font-size:14px}
+.resumo dd{margin:0;font-weight:600;font-size:14px}
+.resumo small{color:var(--mut);font-size:13px}
+.total{
+  border-top:1px dashed var(--bd);padding-top:14px;
+  font-size:16px;font-weight:600;align-items:baseline;
+}
+.total span{color:var(--mut)}
+.total strong{
+  font-size:28px;
+  background:var(--grad-mc);-webkit-background-clip:text;background-clip:text;color:transparent;
+}
+
+/* ============================================================
+   CARRINHO
+============================================================ */
+.item{
+  display:flex;justify-content:space-between;gap:14px;
+  background:var(--bg);border:1px solid var(--bd);border-radius:var(--r);
+  padding:16px;margin-bottom:12px;
+  transition:transform .25s ease,box-shadow .25s;
+  animation:fadeUp .35s ease both;
+}
+.item:hover{transform:translateX(4px);box-shadow:var(--shadow-sm)}
+.item strong{font-size:15px}
+.item small{color:var(--mut);display:block;font-size:13px}
+.item button{
+  background:none;border:0;color:var(--m);cursor:pointer;
+  padding:4px 8px;font-size:13px;font-weight:600;border-radius:6px;
+  transition:background .2s,color .2s;
+}
+.item button:hover{background:var(--m-soft)}
+.item button.rm{color:var(--er)}
+.item button.rm:hover{background:color-mix(in srgb,var(--er) 12%,transparent)}
+
+/* ============================================================
+   DIALOG
+============================================================ */
+dialog{
+  border:0;border-radius:var(--r);padding:0;
+  max-width:420px;width:92%;
+  background:var(--bg);color:var(--tx);
+  box-shadow:var(--shadow-lg);
+  animation:fadeUp .3s ease;
+}
+dialog::backdrop{background:rgba(0,0,0,.55);backdrop-filter:blur(4px)}
+dialog form{display:grid;gap:14px;padding:26px;position:relative}
+dialog form::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:6px;border-radius:var(--r) var(--r) 0 0;
+  background:var(--grad-myc);background-size:200% 100%;
+  animation:gradientShift 6s ease infinite;
+}
+dialog h3{font-size:20px;letter-spacing:-.01em}
+
+/* ============================================================
+   RODAPÉ
+============================================================ */
+.rodape{
+  padding:52px 5% 28px;color:var(--mut);
+  border-top:1px solid var(--bd);
+  background:
+    radial-gradient(60% 100% at 100% 0, rgba(0,160,220,.06), transparent 60%),
+    radial-gradient(60% 100% at 0 100%, rgba(200,0,122,.06), transparent 60%);
+}
+.rodape .cols{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:28px;margin-bottom:32px;
+}
+.rodape h4{color:var(--tx);font-size:15px;margin-bottom:12px;font-weight:700;letter-spacing:.02em}
+.rodape a{color:var(--mut);text-decoration:none;font-size:14px;display:block;padding:4px 0;transition:color .2s,padding-left .2s}
+.rodape a:hover{color:var(--m);padding-left:6px}
+.rodape .fim{
+  text-align:center;font-size:13px;border-top:1px solid var(--bd);
+  padding-top:22px;
+}
+
+/* ============================================================
+   WHATSAPP FLUTUANTE
+============================================================ */
+#wa-float{
+  position:fixed;right:20px;bottom:20px;z-index:40;
+  background:var(--ok);color:#fff;border:0;border-radius:99px;
+  padding:14px 20px;font-weight:700;font-size:14px;cursor:pointer;
+  box-shadow:0 10px 28px rgba(31,168,85,.4);
+  display:flex;align-items:center;gap:10px;
+  animation:pulseRing 2.4s ease-out infinite;
+  transition:transform .25s cubic-bezier(.34,1.56,.64,1);
+}
+#wa-float:hover{transform:translateY(-3px) scale(1.03);animation-play-state:paused}
+#wa-float svg{width:22px;height:22px}
+@media(max-width:600px){#wa-float span{display:none}#wa-float{padding:14px}}
+
+/* ============================================================
+   TOAST
+============================================================ */
+#toast{
+  position:fixed;left:50%;bottom:28px;z-index:50;
+  transform:translate(-50%,140%);
+  background:#14171f;color:#fff;
+  padding:13px 20px;border-radius:12px;font-size:14px;font-weight:600;
+  box-shadow:var(--shadow-lg);
+  transition:transform .35s cubic-bezier(.34,1.4,.64,1);
+  max-width:90vw;text-align:center;
+  display:flex;align-items:center;gap:10px;
+}
+#toast.show{transform:translate(-50%,0)}
+#toast.ok{background:var(--ok)}
+#toast.ok::before{content:"✓";font-weight:800}
+#toast.er{background:var(--er)}
+#toast.er::before{content:"!";font-weight:800}
+
+/* ============================================================
+   VOLTAR AO CASE
+============================================================ */
+.back-to-case{
+  position:fixed;bottom:20px;left:20px;z-index:45;
+  background:#14171f;color:#fff;
+  padding:11px 18px;border-radius:99px;
+  font-size:14px;font-weight:600;text-decoration:none;
+  display:inline-flex;align-items:center;gap:8px;
+  box-shadow:0 10px 28px rgba(0,0,0,.35);
+  transition:transform .2s ease,background .2s;
+}
+.back-to-case:hover{transform:translateY(-2px);background:var(--m)}
+@media(max-width:600px){.back-to-case{bottom:14px;left:14px;font-size:13px;padding:9px 14px}}
+
+/* ============================================================
+   RESPONSIVO
+============================================================ */
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;text-align:left;padding:56px 5% 64px}
+  .hero-art{max-width:320px;animation:none}
+  .calc,.calc-form{grid-template-columns:1fr}
+  .resumo{position:static}
+}
+@media(max-width:700px){
+  nav{display:none}
+  nav.open{
+    display:flex;flex-direction:column;width:100%;align-items:stretch;
+    padding-top:12px;border-top:1px solid var(--bd);margin-top:8px;
+  }
+  nav.open a{padding:12px 14px}
+  .burger{display:inline-block}
+  .sec{padding:56px 5%}
+  .logo small{display:none}
+}
+/* ============================================================
+   MOCKUP WHATSAPP (demo)
+============================================================ */
+dialog#wa-demo{
+  max-width:440px;
+  width:94%;
+  border:0;
+  border-radius:20px;
+  padding:0;
+  overflow:hidden;
+  background:#ECE5DD;
+  box-shadow:0 30px 80px rgba(0,0,0,.5);
+  animation:fadeUp .3s ease;
+}
+dialog#wa-demo::backdrop{
+  background:rgba(0,0,0,.7);
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+}
+
+.wa-mock{
+  display:flex;
+  flex-direction:column;
+  max-height:88vh;
+}
+
+/* Header verde WhatsApp */
+.wa-mock-header{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:14px 16px;
+  background:#075E54;
+  color:#fff;
+  flex-shrink:0;
+}
+.wa-mock-avatar{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  background:conic-gradient(from 0deg,var(--c),var(--m),var(--y),var(--c));
+  display:grid;
+  place-items:center;
+  color:#fff;
+  font:900 18px system-ui,sans-serif;
+  flex-shrink:0;
+  box-shadow:0 2px 6px rgba(0,0,0,.2);
+}
+.wa-mock-contact{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+  min-width:0;
+}
+.wa-mock-contact b{
+  font-size:15px;
+  font-weight:700;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.wa-mock-contact small{
+  font-size:12px;
+  opacity:.85;
+  font-weight:500;
+}
+.wa-mock-close{
+  background:none;
+  border:0;
+  color:#fff;
+  font-size:22px;
+  cursor:pointer;
+  padding:4px 8px;
+  border-radius:6px;
+  line-height:1;
+  transition:background .2s;
+}
+.wa-mock-close:hover{background:rgba(255,255,255,.15)}
+
+/* Corpo do chat */
+.wa-mock-body{
+  flex:1;
+  overflow-y:auto;
+  padding:18px 14px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  background-color:#ECE5DD;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,.5), transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(255,255,255,.5), transparent 50%),
+    repeating-linear-gradient(45deg, rgba(0,0,0,.02) 0 12px, transparent 12px 24px);
+}
+
+.wa-mock-day{
+  align-self:center;
+  font:600 11px system-ui,sans-serif;
+  color:#54656F;
+  background:rgba(255,255,255,.85);
+  padding:5px 14px;
+  border-radius:20px;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  box-shadow:0 1px 2px rgba(0,0,0,.05);
+}
+
+.wa-mock-bubble{
+  align-self:flex-end;
+  max-width:85%;
+  background:#DCF8C6;
+  border-radius:10px 10px 0 10px;
+  padding:10px 12px 6px;
+  box-shadow:0 1px 2px rgba(0,0,0,.13);
+  position:relative;
+}
+.wa-mock-bubble::after{
+  content:"";
+  position:absolute;
+  top:0;
+  right:-8px;
+  width:0;
+  height:0;
+  border-left:8px solid #DCF8C6;
+  border-top:8px solid transparent;
+  border-bottom:8px solid transparent;
+}
+.wa-mock-text{
+  display:block;
+  font:400 14px/1.45 system-ui,-apple-system,sans-serif;
+  color:#303030;
+  white-space:pre-line;
+  word-break:break-word;
+  margin-bottom:2px;
+}
+.wa-mock-time{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:4px;
+  font:500 11px system-ui,sans-serif;
+  color:#7B8994;
+  margin-top:2px;
+}
+.wa-mock-time::after{
+  content:"✓✓";
+  color:#4FC3F7;
+  font-weight:700;
+  letter-spacing:-2px;
+  font-size:12px;
+}
+
+/* Aviso de demo */
+.wa-mock-notice{
+  align-self:center;
+  max-width:92%;
+  background:rgba(255,251,230,.96);
+  border:1px solid rgba(245,190,50,.6);
+  border-radius:10px;
+  padding:12px 14px;
+  font:500 12px/1.5 system-ui,sans-serif;
+  color:#7A5800;
+  text-align:center;
+  margin-top:6px;
+}
+.wa-mock-notice b{
+  display:block;
+  color:#B45309;
+  margin-bottom:4px;
+  font-size:13px;
+  font-weight:800;
+}
+
+/* Rodapé com botão fechar */
+.wa-mock-footer{
+  display:flex;
+  gap:10px;
+  padding:14px 16px;
+  background:#fff;
+  border-top:1px solid #E5E5E5;
+  flex-shrink:0;
+}
+.wa-mock-footer .btn{
+  flex:1;
+  padding:11px 18px;
+  font-size:14px;
+}
+
+@media(max-width:480px){
+  .wa-mock-text{font-size:13px}
+  .wa-mock-body{padding:14px 12px}
+}
+@media print{
+  .topo,#wa-float,nav,.acts,.faq,.depo,#toast,dialog,.faixa,.demo-banner,.back-to-case{display:none !important}
+  .sec{padding:14px 0;background:none}
+  body{font-size:12px;padding-top:0}
+  .card,.resumo,.item{border:1px solid #ccc;break-inside:avoid;box-shadow:none}
+}
+</style>
+</head>
+<body>
+
+<!-- BANNER DEMO -->
+<div class="demo-banner">
+  <b>Demo</b>
+  <span>Dados e imagens fictícios</span>
+  <span class="keep">·</span>
+  <a href="../projetos/topprint.html">Ver case completo</a>
+</div>
+
+<header class="topo">
+  <a class="logo" href="#topo">
+    <span class="logo-mark">P</span>
+    <span>PRISMA <b>GRÁFICA</b> <small>Demo</small></span>
+  </a>
+  <button class="burger" id="burger" aria-label="Abrir menu" aria-expanded="false">☰</button>
+  <nav id="nav" aria-label="Navegação principal">
+    <a href="#sobre">Sobre</a>
+    <a href="#como">Como funciona</a>
+    <a href="#servicos">Serviços</a>
+    <a href="#produtos">Produtos</a>
+    <a href="#calculadora">Orçamento</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contato">Contato</a>
+    <a href="#carrinho" class="btn-carrinho">Pedido <span id="cart-count" aria-live="polite">0</span></a>
+  </nav>
+</header>
+<div class="faixa"></div>
+
+<main id="topo">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div>
+      <h1>Imprima. <span class="gr">Personalize.</span><br>Destaque sua marca.</h1>
+      <p>Cartões, adesivos, banners, canecas e muito mais. Calcule o preço na hora e feche pelo WhatsApp — sem vaivém, sem "vou verificar e te falo".</p>
+      <div class="acts">
+        <a class="btn" href="#calculadora">Calcular orçamento</a>
+        <button class="btn wa" data-wa>Falar no WhatsApp</button>
+      </div>
+      <div class="badges">
+        <span class="badge">Orçamento em segundos</span>
+        <span class="badge">Carrinho persistente</span>
+        <span class="badge">PIX · Cartão · Boleto</span>
+      </div>
+    </div>
+
+    <div class="hero-art" aria-hidden="true">
+      <div class="hero-art-mark">P</div>
+      <div class="hero-art-label">Prisma Gráfica</div>
+      <div class="hero-art-sub">demonstração</div>
+    </div>
+  </section>
+
+  <!-- SOBRE -->
+  <section class="sec alt reveal" id="sobre">
+    <h2>Sobre a Prisma</h2>
+    <p class="sub">Esta é uma <strong>demonstração pública</strong>. Os dados, valores, endereço e depoimentos foram substituídos por fictícios para preservar o cliente real. Toda a estrutura, calculadora e fluxo de pedido funcionam exatamente como no projeto original.</p>
+  </section>
+
+  <!-- COMO FUNCIONA -->
+  <section class="sec reveal" id="como">
+    <h2>Como funciona</h2>
+    <p class="sub">Do orçamento à entrega, tudo simples e sem burocracia.</p>
+    <div class="steps">
+      <div class="step"><h3>Escolha o produto</h3><p>Cartões, banners, adesivos, canecas e mais.</p></div>
+      <div class="step"><h3>Calcule na hora</h3><p>Ajuste quantidade, material, acabamento e prazo.</p></div>
+      <div class="step"><h3>Envie pelo WhatsApp</h3><p>O pedido chega formatado, pronto pra fechar.</p></div>
+      <div class="step"><h3>Retire ou receba</h3><p>Retirada na loja ou entrega combinada.</p></div>
+    </div>
+  </section>
+
+  <!-- SERVIÇOS -->
+  <section class="sec alt reveal" id="servicos">
+    <h2>Serviços</h2>
+    <div class="grid g4" id="servicos-l"></div>
+  </section>
+
+  <!-- PRODUTOS -->
+  <section class="sec reveal" id="produtos">
+    <h2>Produtos em destaque</h2>
+    <p class="sub">Preços de referência — o valor final depende do material, acabamento e prazo.</p>
+    <div class="grid g4" id="lista-produtos"></div>
+  </section>
+
+  <!-- DEPOIMENTOS (fictícios) -->
+  <section class="sec alt reveal" id="depoimentos">
+    <h2>O que dizem nossos clientes</h2>
+    <div class="grid g3">
+      <div class="depo">
+        <div class="stars">★★★★★</div>
+        <p>"Rápido, bem feito e atendimento humano. Fechei pelo WhatsApp em 5 minutos."</p>
+        <small>— Cliente exemplo (depoimento fictício)</small>
+      </div>
+      <div class="depo">
+        <div class="stars">★★★★★</div>
+        <p>"Precisava de banner urgente. Resolveram no mesmo dia."</p>
+        <small>— Cliente exemplo (depoimento fictício)</small>
+      </div>
+      <div class="depo">
+        <div class="stars">★★★★★</div>
+        <p>"Cartões ficaram lindos. Já virei cliente fiel."</p>
+        <small>— Cliente exemplo (depoimento fictício)</small>
+      </div>
+    </div>
+  </section>
+
+  <!-- CALCULADORA -->
+  <section class="sec reveal" id="calculadora">
+    <h2>Calculadora de orçamento</h2>
+    <p class="sub">Valor estimado — o valor final é confirmado no WhatsApp conforme a arte e o material.</p>
+    <div class="calc">
+      <div class="calc-form">
+        <label>Produto <select id="c-produto"></select></label>
+        <label>Quantidade <input id="c-qtd" type="number" min="1" step="1" value="1000" inputmode="numeric"></label>
+        <label>Material <select id="c-material"></select></label>
+        <label>Impressão <select id="c-impressao"></select></label>
+        <label>Acabamento <select id="c-acabamento"></select></label>
+        <label>Prazo <select id="c-prazo"></select></label>
+        <label class="check"><input type="checkbox" id="c-arte" style="width:auto"> Tenho minha própria arte (envio pelo WhatsApp)</label>
+        <label>Observações <textarea id="c-obs" rows="2" placeholder="Ex.: tamanho, logo centralizado..." maxlength="500"></textarea></label>
+      </div>
+      <aside class="resumo" aria-live="polite">
+        <h3>Resumo</h3>
+        <dl id="resumo-linhas"></dl>
+        <div class="total"><span>Total</span><strong id="resumo-total">R$ 0,00</strong></div>
+        <small id="resumo-unit"></small>
+        <button class="btn" id="btn-add">Adicionar ao pedido</button>
+      </aside>
+    </div>
+  </section>
+
+  <!-- CARRINHO -->
+  <section class="sec alt reveal" id="carrinho">
+    <h2>Seu pedido</h2>
+    <p class="sub">Confira os itens e envie tudo de uma vez pelo WhatsApp.</p>
+    <div class="calc">
+      <div id="cart-itens" aria-live="polite"></div>
+      <aside class="resumo">
+        <h3>Finalizar</h3>
+        <div class="total"><span>Total estimado</span><strong id="cart-total">R$ 0,00</strong></div>
+        <button class="btn wa" id="btn-enviar">Enviar pedido pelo WhatsApp</button>
+        <button class="btn o" id="btn-limpar" type="button">Limpar pedido</button>
+        <small>Valor estimado. Entrega, arte e pagamento (PIX, cartão, boleto) são combinados no WhatsApp.</small>
+      </aside>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="sec reveal" id="faq">
+    <h2>Perguntas frequentes</h2>
+    <p class="sub">Se ficar alguma dúvida, chama no WhatsApp.</p>
+    <div class="faq">
+      <details><summary>Vocês entregam em todo o DF?</summary><p>Sim, entregamos em todo o Distrito Federal. Retirada também disponível na loja. Frete combinado pelo WhatsApp.</p></details>
+      <details><summary>Quais os prazos de produção?</summary><p>Tiragens pequenas normalmente ficam prontas em 2 a 5 dias úteis. Prazo urgente pode ter acréscimo — veja na calculadora.</p></details>
+      <details><summary>Preciso mandar a arte pronta?</summary><p>Não. Você pode mandar sua arte ou pedir a criação. Aceitamos PDF, PNG, JPG, SVG, AI, PSD e CorelDraw.</p></details>
+      <details><summary>Quais formas de pagamento?</summary><p>PIX, cartão de crédito/débito e boleto para empresas. Combinamos pelo WhatsApp.</p></details>
+      <details><summary>Posso pedir amostra?</summary><p>Sim, para tiragens maiores enviamos prova digital e, quando necessário, prova física.</p></details>
+    </div>
+  </section>
+
+  <!-- PAGAMENTO + LOCALIZAÇÃO -->
+  <section class="sec alt reveal" id="pagamento">
+    <div class="grid g2">
+      <div>
+        <h2>Formas de pagamento</h2>
+        <p class="sub">Escolha o que for mais prático.</p>
+        <div class="pgto">
+          <span>PIX</span><span>Cartão de crédito</span><span>Cartão de débito</span><span>Boleto (empresas)</span>
+        </div>
+      </div>
+      <div>
+        <h2>Onde estamos</h2>
+        <div class="mapa" role="img" aria-label="Mapa da localização (demonstração)">
+          <div class="mapa-inner">
+            <b>📍 Localização fictícia</b>
+            Endereço de demonstração — o cliente real<br>tem mapa próprio configurado neste espaço.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTATO -->
+  <section class="sec reveal" id="contato">
+    <h2>Contato</h2>
+    <p class="sub">Prisma Gráfica (demonstração) · Brasília - DF<br>
+      WhatsApp <a href="#" data-wa style="color:var(--m);font-weight:600">(00) 00000-0000</a>
+      · dados fictícios
+    </p>
+    <button class="btn wa" data-wa>Chamar no WhatsApp</button>
+  </section>
+
+</main>
+
+<footer class="rodape">
+  <div class="cols">
+    <div>
+      <h4>Prisma Gráfica (demonstração)</h4>
+      <p style="font-size:14px">Página de vendas com calculadora de orçamento em tempo real. Todos os dados são fictícios.</p>
+    </div>
+    <div>
+      <h4>Navegar</h4>
+      <a href="#produtos">Produtos</a>
+      <a href="#calculadora">Orçamento</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div>
+      <h4>Contato</h4>
+      <a href="#" data-wa>WhatsApp (fictício)</a>
+      <a href="#contato">Ver endereço</a>
+    </div>
+  </div>
+  <div class="fim">© <span id="ano"></span> Prisma Gráfica (demo) — Todos os direitos reservados.</div>
+</footer>
+
+<button id="wa-float" data-wa aria-label="Falar no WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.5 3.5A10 10 0 0 0 4.4 17.3L3 21l3.8-1.3A10 10 0 1 0 20.5 3.5Zm-8.5 16a8 8 0 0 1-4.1-1.1l-.3-.2-2.2.8.8-2.2-.2-.3A8 8 0 1 1 12 19.5Zm4.5-5.9c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1-.2.2-.6.7-.7.9-.1.1-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.2-.4.2-.4.6-1.2.1-.2 0-.4 0-.5L9.7 8c-.2-.5-.5-.4-.6-.4h-.5c-.2 0-.5.1-.7.4-.2.3-.9.9-.9 2.2s1 2.6 1.1 2.8c.1.2 1.9 3 4.7 4.1 2.3.9 2.8.8 3.3.7.5-.1 1.4-.6 1.6-1.2.2-.6.2-1.1.1-1.2 0-.1-.2-.2-.4-.3Z"/></svg>
+  <span>WhatsApp</span>
+</button>
+
+<a href="../projetos/topprint.html" class="back-to-case">← Ver case completo</a>
+<!-- MOCKUP WHATSAPP (demo) -->
+<dialog id="wa-demo" aria-labelledby="wa-demo-title">
+  <div class="wa-mock">
+
+    <header class="wa-mock-header">
+      <div class="wa-mock-avatar" aria-hidden="true">P</div>
+      <div class="wa-mock-contact">
+        <b id="wa-demo-title">Prisma Gráfica</b>
+        <small>online</small>
+      </div>
+      <button type="button" class="wa-mock-close" aria-label="Fechar">✕</button>
+    </header>
+
+    <div class="wa-mock-body">
+      <div class="wa-mock-day">Hoje</div>
+      <div class="wa-mock-bubble">
+        <span class="wa-mock-text"></span>
+        <span class="wa-mock-time"></span>
+      </div>
+
+      <div class="wa-mock-notice">
+        <b>⚠️ Demonstração</b>
+        No site real, este botão abriria o WhatsApp com a mensagem acima já preenchida.
+      </div>
+    </div>
+
+    <footer class="wa-mock-footer">
+      <button type="button" class="btn o wa-mock-close">Fechar</button>
+    </footer>
+
+  </div>
+</dialog>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<dialog id="dlg" aria-labelledby="dlg-t">
+  <form method="dialog" id="lead">
+    <h3 id="dlg-t">Quase lá!</h3>
+    <p style="color:var(--mut);font-size:14px">Informe seus dados para a gente te atender pelo WhatsApp.</p>
+    <label>Seu nome <input id="l-nome" required autocomplete="name" maxlength="80"></label>
+    <label>Seu WhatsApp (com DDD) <input id="l-fone" required type="tel" inputmode="numeric" autocomplete="tel" placeholder="(61) 99999-9999" maxlength="16"></label>
+    <button class="btn wa" type="submit">Abrir WhatsApp</button>
+    <button class="btn o" type="button" id="l-x">Cancelar</button>
+  </form>
+</dialog>
+
+<script>
+/* ============================================================
+   CONFIG (demo — número fictício)
+============================================================ */
+const WHATS = "5561900000000";
+
+/* ============================================================
+   DADOS
+============================================================ */
+const SERVICOS = [
+  {nome:"Impressão digital", desc:"Pequenas e médias tiragens, entrega rápida."},
+  {nome:"Impressão offset",  desc:"Grandes volumes com melhor custo por unidade."},
+  {nome:"Grande formato",    desc:"Banners, lonas, adesivos e placas."},
+  {nome:"Personalização",    desc:"Canecas, camisas e ecobags com sua arte."}
+];
+const PRODUTOS = {
+  cartao:{nome:"Cartão de visita",img:"",desc:"Papel premium, corte incluso.",
+    setup:20,unit:.06,perda:.05,margem:1.6,
+    faixas:[{min:1,desc:0},{min:500,desc:.08},{min:1000,desc:.15},{min:5000,desc:.25}],
+    materiais:[{n:"Couchê 250g",m:1},{n:"Couchê 300g",m:1.2},{n:"Reciclato 240g",m:1.35}],
+    impressoes:[{n:"Frente (4x0)",m:1},{n:"Frente e verso (4x4)",m:1.6}],
+    acabamentos:[{n:"Sem acabamento",u:0},{n:"Laminação fosca",u:.025},{n:"Verniz localizado",u:.05}]},
+  panfleto:{nome:"Panfleto",img:"",desc:"A5 ou A6, várias tiragens.",
+    setup:25,unit:.09,perda:.05,margem:1.6,
+    faixas:[{min:1,desc:0},{min:1000,desc:.12},{min:5000,desc:.25}],
+    materiais:[{n:"Couchê 115g",m:1},{n:"Couchê 150g",m:1.25}],
+    impressoes:[{n:"Frente (4x0)",m:1},{n:"Frente e verso (4x4)",m:1.7}],
+    acabamentos:[{n:"Sem acabamento",u:0},{n:"Dobra",u:.02}]},
+  adesivo:{nome:"Adesivo",img:"",desc:"Vinil com corte especial.",
+    setup:30,unit:.35,perda:.1,margem:1.7,
+    faixas:[{min:1,desc:0},{min:100,desc:.1},{min:500,desc:.2}],
+    materiais:[{n:"Vinil branco",m:1},{n:"Vinil transparente",m:1.3}],
+    impressoes:[{n:"Colorido",m:1}],
+    acabamentos:[{n:"Corte reto",u:0},{n:"Corte especial",u:.15},{n:"Laminação",u:.08}]},
+  banner:{nome:"Banner",img:"",desc:"Lona 440g com acabamento.",
+    setup:15,unit:38,perda:.05,margem:1.5,
+    faixas:[{min:1,desc:0},{min:5,desc:.08},{min:20,desc:.15}],
+    materiais:[{n:"Lona 440g",m:1},{n:"Lona 510g",m:1.2}],
+    impressoes:[{n:"Colorido",m:1}],
+    acabamentos:[{n:"Sem acabamento",u:0},{n:"Ilhós + bainha",u:6}]},
+  caneca:{nome:"Caneca personalizada",img:"",desc:"Cerâmica com sublimação.",
+    setup:10,unit:11,perda:.03,margem:1.8,
+    faixas:[{min:1,desc:0},{min:24,desc:.1},{min:100,desc:.2}],
+    materiais:[{n:"Cerâmica branca",m:1},{n:"Cerâmica colorida",m:1.25}],
+    impressoes:[{n:"Sublimação 1 lado",m:1},{n:"Sublimação 360°",m:1.3}],
+    acabamentos:[{n:"Embalagem simples",u:0},{n:"Caixa individual",u:2.5}]}
+};
+const PRAZOS = [
+  {n:"Normal (5 dias úteis)", m:1},
+  {n:"Urgente (48h) +35%",    m:1.35}
+];
+
+/* ============================================================
+   HELPERS
+============================================================ */
+const $   = id => document.getElementById(id);
+const brl = v  => (Number.isFinite(v) ? v : 0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+const esc = s  => String(s ?? "").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const uid = () => (crypto.randomUUID ? crypto.randomUUID() : "id-"+Date.now()+"-"+Math.random().toString(36).slice(2));
+const img = (s,a) => s ? `<img src="${esc(s)}" alt="${esc(a)}" loading="lazy">` : `<div class="ph">${esc(a)}</div>`;
+const clampIdx = (v, len) => { const n = Number(v); return (Number.isFinite(n) && n>=0 && n<len) ? n : 0; };
+
+function toast(msg, tipo="ok"){
+  const t = $("toast");
+  t.textContent = msg;
+  t.className = "show " + tipo;
+  clearTimeout(toast._tm);
+  toast._tm = setTimeout(()=>{ t.className = ""; }, 2600);
+}
+function maskFone(v){
+  v = String(v||"").replace(/\D/g,"").slice(0,11);
+  if(v.length <= 2)  return v;
+  if(v.length <= 6)  return `(${v.slice(0,2)}) ${v.slice(2)}`;
+  if(v.length <= 10) return `(${v.slice(0,2)}) ${v.slice(2,6)}-${v.slice(6)}`;
+  return `(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`;
+}
+
+/* ============================================================
+   CÁLCULO
+============================================================ */
+function calcular(cfg){
+  try{
+    const p = PRODUTOS[cfg.produto];
+    if(!p) throw new Error("Produto inválido");
+    const mat  = p.materiais[clampIdx(cfg.material, p.materiais.length)];
+    const imp  = p.impressoes[clampIdx(cfg.impressao, p.impressoes.length)];
+    const acab = p.acabamentos[clampIdx(cfg.acabamento, p.acabamentos.length)];
+    const prazo= PRAZOS[clampIdx(cfg.prazo, PRAZOS.length)];
+    const q = Math.max(1, Math.min(1_000_000, parseInt(cfg.qtd,10) || 1));
+    const faixa = [...p.faixas].reverse().find(f => q >= f.min) || {min:1,desc:0};
+    const qp = q * (1 + p.perda);
+    const material  = qp * p.unit * mat.m * p.margem;
+    const impressao = qp * p.unit * (imp.m - 1) * mat.m * p.margem;
+    const acabamento= q * acab.u * p.margem;
+    const bruto     = material + impressao + acabamento;
+    const desconto  = bruto * faixa.desc;
+    const urgencia  = (bruto - desconto + p.setup) * (prazo.m - 1);
+    const total     = Math.max(0, bruto - desconto + p.setup + urgencia);
+    return {
+      q, total, unit: total / q,
+      linhas: [
+        ["Material", material], ["Impressão", impressao], ["Acabamento", acabamento],
+        ["Preparo / setup", p.setup],
+        desconto ? [`Desconto ${Math.round(faixa.desc*100)}%`, -desconto] : null,
+        urgencia ? ["Urgência", urgencia] : null
+      ].filter(Boolean)
+    };
+  }catch(err){
+    console.error(err);
+    return { q:1, total:0, unit:0, linhas:[["Erro ao calcular", 0]] };
+  }
+}
+
+/* ============================================================
+   RENDER CATÁLOGO
+============================================================ */
+$("servicos-l").innerHTML = SERVICOS.map(s =>
+  `<div class="card"><div class="card-b"><h3>${esc(s.nome)}</h3><p>${esc(s.desc)}</p></div></div>`
+).join("");
+
+$("lista-produtos").innerHTML = Object.entries(PRODUTOS).map(([id,p])=>{
+  const r = calcular({produto:id, qtd:p.faixas[Math.min(1,p.faixas.length-1)].min, material:0, impressao:0, acabamento:0, prazo:0});
+  return `<div class="card">${img(p.img,p.nome)}
+    <div class="card-b">
+      <h3>${esc(p.nome)}</h3>
+      <p>${esc(p.desc)}</p>
+      <span class="preco">a partir de ${brl(r.unit)}/un</span>
+      <a class="btn" href="#calculadora" data-prod="${esc(id)}">Personalizar / Calcular</a>
+    </div></div>`;
+}).join("");
+
+/* ============================================================
+   CALCULADORA
+============================================================ */
+const opts = (a,k="n") => a.map((o,i)=>`<option value="${i}">${esc(o[k])}</option>`).join("");
+let ultimo = null;
+
+$("c-produto").innerHTML = Object.entries(PRODUTOS).map(([id,p])=>`<option value="${esc(id)}">${esc(p.nome)}</option>`).join("");
+$("c-prazo").innerHTML = opts(PRAZOS);
+
+function carregarProduto(){
+  const p = PRODUTOS[$("c-produto").value];
+  if(!p) return;
+  $("c-material").innerHTML   = opts(p.materiais);
+  $("c-impressao").innerHTML  = opts(p.impressoes);
+  $("c-acabamento").innerHTML = opts(p.acabamentos);
+  atualizar();
+}
+
+const configAtual = () => ({
+  produto:   $("c-produto").value,
+  qtd:       $("c-qtd").value,
+  material:  +$("c-material").value,
+  impressao: +$("c-impressao").value,
+  acabamento:+$("c-acabamento").value,
+  prazo:     +$("c-prazo").value
+});
+
+function atualizar(){
+  const cfg = configAtual();
+  const r = calcular(cfg);
+  ultimo = { cfg, r };
+  $("resumo-linhas").innerHTML = r.linhas.map(([n,v]) =>
+    `<div><dt>${esc(n)}</dt><dd>${brl(v)}</dd></div>`).join("");
+  $("resumo-total").textContent = brl(r.total);
+  $("resumo-unit").textContent  = `≈ ${brl(r.unit)} por unidade`;
+}
+
+$("c-produto").addEventListener("change", carregarProduto);
+["c-qtd","c-material","c-impressao","c-acabamento","c-prazo"].forEach(id =>
+  $(id).addEventListener("input", atualizar));
+
+document.addEventListener("click", e=>{
+  const a = e.target.closest("[data-prod]");
+  if(a){
+    $("c-produto").value = a.dataset.prod;
+    carregarProduto();
+  }
+});
+
+carregarProduto();
+
+/* ============================================================
+   CARRINHO
+============================================================ */
+const KEY = "topprint.demo.carrinho.v1";
+let carrinho = [];
+try{ carrinho = JSON.parse(localStorage.getItem(KEY) || "[]"); if(!Array.isArray(carrinho)) carrinho = []; }catch(e){ carrinho = []; }
+const salvar = () => { try{ localStorage.setItem(KEY, JSON.stringify(carrinho)); }catch(e){} };
+
+$("btn-add").addEventListener("click", ()=>{
+  if(!ultimo){ toast("Calculadora ainda não carregou.", "er"); return; }
+  const { cfg, r } = ultimo;
+  const p = PRODUTOS[cfg.produto];
+  if(!p){ toast("Produto inválido.", "er"); return; }
+
+  carrinho.push({
+    id: uid(),
+    titulo: `${r.q}× ${p.nome}`,
+    detalhe: [
+      p.materiais[cfg.material].n,
+      p.impressoes[cfg.impressao].n,
+      p.acabamentos[cfg.acabamento].n,
+      PRAZOS[cfg.prazo].n
+    ].join(" · "),
+    obs: $("c-obs").value.trim().slice(0,500),
+    arte: $("c-arte").checked,
+    cfg,
+    total: r.total
+  });
+  salvar(); renderCarrinho();
+  toast("Item adicionado ao pedido");
+  $("carrinho").scrollIntoView({behavior:"smooth"});
+});
+
+function renderCarrinho(){
+  $("cart-count").textContent = carrinho.length;
+
+  $("cart-itens").innerHTML = carrinho.length
+    ? carrinho.map(i => `
+      <div class="item">
+        <div>
+          <strong>${esc(i.titulo)}</strong>
+          <small>${esc(i.detalhe)}</small>
+          ${i.obs ? `<small>Obs: ${esc(i.obs)}</small>` : ""}
+          ${i.arte ? `<small>Tenho minha arte</small>` : ""}
+        </div>
+        <div style="text-align:right">
+          <strong>${brl(i.total)}</strong><br>
+          <button data-edit="${esc(i.id)}">editar</button>
+          <button class="rm" data-rm="${esc(i.id)}" aria-label="Remover ${esc(i.titulo)}">remover</button>
+        </div>
+      </div>`).join("")
+    : "<p>Seu pedido está vazio. Use a calculadora acima.</p>";
+
+  $("cart-total").textContent = brl(carrinho.reduce((s,i)=>s+i.total,0));
+  $("btn-enviar").disabled = carrinho.length === 0;
+  $("btn-limpar").disabled = carrinho.length === 0;
+}
+
+$("cart-itens").addEventListener("click", e=>{
+  const rm = e.target.dataset.rm;
+  const ed = e.target.dataset.edit;
+
+  if(rm){
+    carrinho = carrinho.filter(i => i.id !== rm);
+    salvar(); renderCarrinho(); toast("Item removido.");
+  }
+  if(ed){
+    const item = carrinho.find(i => i.id === ed);
+    if(!item) return;
+    $("c-produto").value = item.cfg.produto;
+    carregarProduto();
+    $("c-qtd").value        = item.cfg.qtd;
+    $("c-material").value   = item.cfg.material;
+    $("c-impressao").value  = item.cfg.impressao;
+    $("c-acabamento").value = item.cfg.acabamento;
+    $("c-prazo").value      = item.cfg.prazo;
+    $("c-obs").value        = item.obs || "";
+    $("c-arte").checked     = !!item.arte;
+    atualizar();
+    carrinho = carrinho.filter(i => i.id !== ed);
+    salvar(); renderCarrinho();
+    toast("Item carregado na calculadora. Edite e adicione de novo.");
+    $("calculadora").scrollIntoView({behavior:"smooth"});
+  }
+});
+
+$("btn-limpar").addEventListener("click", ()=>{
+  if(!carrinho.length) return;
+  if(confirm("Remover todos os itens do pedido?")){
+    carrinho = []; salvar(); renderCarrinho(); toast("Pedido esvaziado.");
+  }
+});
+
+/* ============================================================
+   LEAD + WHATSAPP (DEMO)
+============================================================ */
+let cliente = null;
+try{ cliente = JSON.parse(localStorage.getItem("topprint.demo.cliente") || "null"); }catch(e){ cliente = null; }
+let pendente = null;
+
+function resumoPedido(){
+  return carrinho.map(i =>
+    `• ${i.titulo} (${i.detalhe})${i.obs ? " — "+i.obs : ""}${i.arte ? " [tenho arte]" : ""} — ${brl(i.total)}`
+  ).join("\n");
+}
+
+function horaAgora(){
+  const d = new Date();
+  return String(d.getHours()).padStart(2,'0') + ':' +
+         String(d.getMinutes()).padStart(2,'0');
+}
+
+function abrirWhats(resumo, total){
+  let msg = "Olá, Prisma! Vim pelo site.";
+  if(resumo){
+    msg += `\n\nQuero este orçamento:\n${resumo}\n\nTotal estimado: ${brl(total)}`;
+  }
+
+  const dlg = $("wa-demo");
+  if(!dlg){ toast(msg, "ok"); return; } // fallback se o dialog não existir
+
+  dlg.querySelector(".wa-mock-text").textContent  = msg;
+  dlg.querySelector(".wa-mock-time").textContent  = horaAgora();
+  dlg.showModal();
+}
+
+function iniciarWhats(resumo, total){
+  pendente = { resumo, total };
+  if(cliente && cliente.nome && cliente.fone) abrirWhats(resumo, total);
+  else $("dlg").showModal();
+}
+
+document.querySelectorAll("[data-wa]").forEach(b => b.addEventListener("click", () => iniciarWhats("",0)));
+
+$("btn-enviar").addEventListener("click", ()=>{
+  if(!carrinho.length){ toast("Adicione um item ao pedido.", "er"); return; }
+  iniciarWhats(resumoPedido(), carrinho.reduce((s,i)=>s+i.total,0));
+});
+
+$("l-x").addEventListener("click", ()=> $("dlg").close());
+$("l-fone").addEventListener("input", e => { e.target.value = maskFone(e.target.value); });
+
+$("lead").addEventListener("submit", e=>{
+  e.preventDefault();
+  const foneDigits = $("l-fone").value.replace(/\D/g,"");
+  if($("l-nome").value.trim().length < 2){
+    toast("Informe seu nome.", "er"); return;
+  }
+  if(foneDigits.length < 10){
+    toast("Informe o WhatsApp com DDD.", "er"); return;
+  }
+  cliente = { nome: $("l-nome").value.trim().slice(0,80), fone: foneDigits };
+  try{ localStorage.setItem("topprint.demo.cliente", JSON.stringify(cliente)); }catch(x){}
+  $("dlg").close();
+  abrirWhats(pendente?.resumo || "", pendente?.total || 0);
+});
+
+/* ============================================================
+   MENU MOBILE
+============================================================ */
+$("burger").addEventListener("click", ()=>{
+  const nav = $("nav");
+  const aberto = nav.classList.toggle("open");
+  $("burger").setAttribute("aria-expanded", aberto ? "true" : "false");
+});
+$("nav").addEventListener("click", e => {
+  if(e.target.tagName === "A") $("nav").classList.remove("open");
+});
+
+/* ============================================================
+   REVEAL ON SCROLL
+============================================================ */
+const io = ("IntersectionObserver" in window)
+  ? new IntersectionObserver((entries)=>{
+      entries.forEach(en=>{
+        if(en.isIntersecting){
+          en.target.classList.add("visible");
+          io.unobserve(en.target);
+        }
+      });
+    },{threshold:.12,rootMargin:"0px 0px -60px 0px"})
+  : null;
+
+document.querySelectorAll(".reveal").forEach(el=>{
+  if(io) io.observe(el);
+  else el.classList.add("visible");
+});
+/* Fechar mockup WhatsApp */
+$("wa-demo")?.querySelectorAll(".wa-mock-close").forEach(btn =>
+  btn.addEventListener("click", () => $("wa-demo").close())
+);
+/* ============================================================
+   INICIAL
+============================================================ */
+renderCarrinho();
+$("ano").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

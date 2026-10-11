@@ -469,6 +469,7 @@ header.scrolled{
   overflow:hidden;
   background:linear-gradient(160deg,#0d1424,#070a11);
 }
+
 .card .body{
   padding:24px;
   display:flex;
@@ -1799,3 +1800,162 @@ th{color:var(--mut);font-weight:600;font-size:.86rem}
   transition:opacity .7s var(--ease), transform .7s var(--ease);
 }
 .reveal.is-visible{opacity:1;transform:none}
+/* =========================================================
+   CATEGORIAS — thumbs por segmento + CTA de compra
+   ========================================================= */
+
+/* Thumbs específicos por categoria */
+.thumb-nutri{
+  background:
+    radial-gradient(circle at 50% 40%, rgba(52,211,153,.25), transparent 60%),
+    linear-gradient(160deg,#042b1e,#061410);
+}
+.thumb-nutri-m{
+  background:
+    radial-gradient(circle at 50% 40%, rgba(20,184,166,.22), transparent 60%),
+    linear-gradient(160deg,#0a2a28,#061410);
+}
+.thumb-nutri-c{
+  background:
+    radial-gradient(circle at 50% 40%, rgba(239,68,68,.2), transparent 60%),
+    linear-gradient(160deg,#2b0a0a,#140606);
+}
+.thumb-derma{
+  background:
+    radial-gradient(circle at 50% 40%, rgba(168,85,247,.25), transparent 60%),
+    linear-gradient(160deg,#1f0a35,#0a0614);
+}
+
+/* Conteúdo central do thumb de categoria */
+.t-cat{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+}
+.t-cat span{
+  font-size:2.6rem;
+  line-height:1;
+  filter:drop-shadow(0 4px 20px rgba(0,0,0,.5));
+}
+.t-cat em{
+  font:800 .72rem Montserrat,sans-serif;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--mut);
+  font-style:normal;
+  padding:4px 12px;
+  border-radius:999px;
+  border:1px solid var(--line-2);
+  background:rgba(0,0,0,.3);
+}
+
+/* Botão "Quero esse site" no rodapé do card */
+.card-buy{
+  border-radius:0;
+  padding:16px 18px;
+  font-size:.92rem;
+  width:100%;
+  justify-content:center;
+}
+.card-buy:hover{
+  transform:none;
+  box-shadow:0 0 0 rgba(0,0,0,0);
+  filter:brightness(1.08);
+}
+
+/* Ajuste: o card-price absoluto não colide mais porque o CTA está fora do <a> */
+.card .card-price{z-index:4}
+
+/* Mockups da TopPrint (case) */
+.mock-total{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  padding-top:12px;
+  margin-top:6px;
+  border-top:1px dashed var(--line);
+  font:600 .9rem inherit;
+}
+.mock-total span{color:var(--mut)}
+.mock-total b{
+  font:800 1.35rem Montserrat,sans-serif;
+  background:linear-gradient(120deg,var(--blue2),#8ec5ff);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.mock-total-sub{
+  font:500 .72rem 'JetBrains Mono',monospace;
+  color:var(--mut);
+  text-align:right;
+  margin-top:-4px;
+}
+
+/* Mockup do WhatsApp */
+.mock-wa{
+  background:linear-gradient(160deg,#0a1a14,#061410);
+  border:1px solid #1e3a2e;
+  border-radius:12px;
+  padding:14px;
+}
+.mock-wa-bubble{
+  background:#1a3a2c;
+  border-radius:12px 12px 12px 4px;
+  padding:12px 14px;
+  color:#e8f5ee;
+  font-size:.78rem;
+  line-height:1.5;
+  max-width:100%;
+  word-wrap:break-word;
+}
+.mock-wa-bubble b{color:#9ef0c4}
+.mock-wa-hint{
+  font:500 .72rem 'JetBrains Mono',monospace;
+  color:var(--mut);
+  margin-top:10px;
+  text-align:center;
+}
+.mock-wa-hint b{color:var(--tx)}
+
+/* =========================================================
+   THUMBS DO CATÁLOGO
+   ========================================================= */
+
+/* Nutricionista Moderno */
+.thumb-nutri-m{
+  background:
+    radial-gradient(circle at 50% 40%, rgba(20,184,166,.22), transparent 60%),
+    linear-gradient(160deg,#0a2a28,#061410);
+}
+
+/* Dermatologista */
+.thumb-derma{
+  background:
+    radial-gradient(circle at 50% 40%, rgba(168,85,247,.25), transparent 60%),
+    linear-gradient(160deg,#1f0a35,#0a0614);
+}
+
+/* Clínica Médica */
+.thumb-clinica{
+  background:
+    radial-gradient(circle at 50% 40%, rgba(37,99,235,.28), transparent 60%),
+    linear-gradient(160deg,#0a1e3d,#060a14);
+}
+
+/* Kobu (agência / tecnologia) */
+.thumb-kobu{
+  background:
+    radial-gradient(circle at 50% 40%, rgba(255,138,0,.24), transparent 60%),
+    linear-gradient(160deg,#2a1804,#140a02);
+}
+
+/* Service Pro */
+.thumb-service{
+  background:
+    radial-gradient(circle at 50% 40%, rgba(56,189,248,.22), transparent 60%),
+    linear-gradient(160deg,#082532,#041018);
+}

@@ -21,6 +21,7 @@
 <meta name="twitter:description" content="Sites, páginas de vendas e sistemas personalizados.">
 <meta name="twitter:image" content="https://jovemoderno.com/assets/og-cover.jpg">
 
+<!-- Icons & Fonts -->
 <link rel="icon" href="assets/icone.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/icone.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,6 +29,7 @@
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Montserrat:wght@600;700;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 
+<!-- Dados estruturados -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -63,8 +65,8 @@
     <nav aria-label="Principal">
       <ul id="menu-principal">
         <li><a href="#servicos">Serviços</a></li>
+        <li><a href="#modelos">Modelos</a></li>
         <li><a href="#projetos">Projetos</a></li>
-        <li><a href="modelos/index.html">Modelos prontos</a></li>
         <li><a href="#sobre">Sobre</a></li>
         <li><a class="btn btn-primary" data-wa href="#">Solicitar orçamento</a></li>
       </ul>
@@ -74,7 +76,7 @@
 
 <main>
 
-  <!-- HERO -->
+  <!-- ═══════════ HERO ═══════════ -->
   <section class="hero" id="inicio" aria-labelledby="hero-title">
     <div class="wrap hero-grid">
       <div class="hero-copy">
@@ -95,7 +97,7 @@
     </div>
   </section>
 
-  <!-- SERVIÇOS -->
+  <!-- ═══════════ SERVIÇOS ═══════════ -->
   <section id="servicos" aria-labelledby="servicos-title">
     <div class="wrap">
       <div class="sec-head">
@@ -128,8 +130,56 @@
     </div>
   </section>
 
-  <!-- PROJETOS -->
-  <section id="projetos" class="section-alt" aria-labelledby="projetos-title">
+  <!-- ═══════════ MODELOS BASE (NOVO) ═══════════ -->
+  <section id="modelos" class="section-alt" aria-labelledby="modelos-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="modelos-title">Modelos prontos para começar</h2>
+        <p>Escolha um modelo do nosso catálogo, personalizamos com a sua marca e publicamos em até 48h.</p>
+      </div>
+
+      <div class="seg-grid">
+        <a class="seg-card reveal" href="modelos/categorias/saude.html">
+          <span class="seg-icon" aria-hidden="true">🏥</span>
+          <h3>Saúde</h3>
+          <p>Nutricionistas, dermatologistas, psicólogos e clínicas.</p>
+          <span class="seg-count">5 modelos</span>
+          <span class="seg-arrow" aria-hidden="true">→</span>
+        </a>
+
+        <a class="seg-card reveal" href="modelos/categorias/comercio.html">
+          <span class="seg-icon" aria-hidden="true">🛒</span>
+          <h3>Comércio</h3>
+          <p>Autopeças, lojas, restaurantes e e-commerce.</p>
+          <span class="seg-count">4 modelos</span>
+          <span class="seg-arrow" aria-hidden="true">→</span>
+        </a>
+
+        <a class="seg-card reveal" href="modelos/categorias/servicos.html">
+          <span class="seg-icon" aria-hidden="true">⚡</span>
+          <h3>Serviços</h3>
+          <p>Advogados, arquitetos, academias e corretores.</p>
+          <span class="seg-count">6 modelos</span>
+          <span class="seg-arrow" aria-hidden="true">→</span>
+        </a>
+
+        <a class="seg-card seg-card--accent reveal" href="modelos/categorias/personalizado.html">
+          <span class="seg-icon" aria-hidden="true">✨</span>
+          <h3>Personalizado</h3>
+          <p>Não achou o que precisa? Construímos do zero.</p>
+          <span class="seg-count">Sob consulta</span>
+          <span class="seg-arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <div class="cta-row" style="margin-top:36px;justify-content:center">
+        <a class="btn btn-ghost" href="modelos/index.html">Ver catálogo completo</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ PROJETOS ═══════════ -->
+  <section id="projetos" aria-labelledby="projetos-title">
     <div class="wrap">
       <div class="sec-head">
         <h2 id="projetos-title">Projetos em destaque</h2>
@@ -145,7 +195,7 @@
 
       <div class="projects" id="projects-grid">
 
-        <!-- Gestão de Paradas -->
+        <!-- ─── Gestão de Paradas ─── -->
         <article class="card reveal" data-cat="desenvolvido">
           <a class="card-main" href="projetos/gestao-de-paradas.html">
             <div class="thumb thumb-rows" aria-hidden="true">
@@ -164,7 +214,7 @@
           </a>
         </article>
 
-        <!-- Landing Premium · Nutrição -->
+        <!-- ─── Landing Premium · Nutrição ─── -->
         <article class="card reveal" data-cat="desenvolvido">
           <a class="card-main" href="projetos/landing-nutricao.html">
             <div class="thumb thumb-lp" aria-hidden="true">
@@ -188,7 +238,7 @@
           </a>
         </article>
 
-        <!-- TopPrint -->
+        <!-- ─── TopPrint ─── -->
         <article class="card reveal" data-cat="andamento">
           <a class="card-main" href="projetos/topprint.html">
             <div class="thumb thumb-shop" aria-hidden="true">
@@ -211,8 +261,8 @@
     </div>
   </section>
 
-  <!-- SOBRE -->
-  <section id="sobre" aria-labelledby="sobre-title">
+  <!-- ═══════════ SOBRE ═══════════ -->
+  <section id="sobre" class="section-alt" aria-labelledby="sobre-title">
     <div class="wrap about">
       <div class="mark reveal">
         <img src="assets/marca.png" alt="" loading="lazy" decoding="async">
@@ -225,7 +275,7 @@
     </div>
   </section>
 
-  <!-- CTA FINAL -->
+  <!-- ═══════════ CTA FINAL ═══════════ -->
   <section class="section-cta" aria-labelledby="cta-title">
     <div class="wrap">
       <div class="cta-box reveal">
