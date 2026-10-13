@@ -13,6 +13,7 @@
    10. Calculadora TopPrint
    11. Smooth scroll interno
    12. Catálogo — visualizar template
+   13. Catálogo — quero esse site
    ========================================================= */
 
 /* ---------- 1. Utilitários ---------- */
@@ -274,14 +275,16 @@ window.visualizarTemplate = (categoria, modelo) => {
 };
 
 /* ---------- 13. Catálogo — quero esse site ---------- */
-/* Botões "Quero esse site" enviam contexto pro WhatsApp */
-window.queroEsseSite = (categoria, modelo, valor) => {
+/* Nova assinatura: (modelo, tier). O preço vive só na seção #precos. */
+window.queroEsseSite = (modelo, tier, _legado) => {
+  /* _legado: aceita o 3º argumento (preço) por compatibilidade com
+     chamadas antigas. É ignorado — o preço agora está só em #precos. */
+
+  const pacote = tier ? ` (pacote ${tier})` : '';
+
   const msg =
-    `Olá! Tenho interesse no modelo:\n` +
-    `• Categoria: ${categoria}\n` +
-    `• Modelo: ${modelo}\n` +
-    `• Valor: ${valor}\n\n` +
-    `Pode me contar como funciona a personalização?`;
+    `Olá! Tenho interesse no modelo "${modelo}"${pacote} da JOVEMODERNO.\n\n` +
+    `Pode me contar como funciona a personalização e o prazo de entrega?`;
 
   window.open(wa(msg), '_blank', 'noopener');
 };
