@@ -2,27 +2,242 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Commerce X — Template Comercial Multi-Nicho Premium</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Commerce X — Template Comercial Multi-Nicho | JOVEMODERNO</title>
     <meta name="description" content="Commerce X: template comercial multi-nicho com e-commerce, carrinho, catálogo de produtos e tema adaptativo. Escolha seu nicho e veja a mágica acontecer.">
+    <meta name="theme-color" content="#0f0f1a">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Commerce X — Template Comercial Multi-Nicho">
+    <meta property="og:description" content="Um template. Infinitas possibilidades. Escolha seu nicho e veja a mágica acontecer.">
+    <meta property="og:image" content="../assets/og-commerce-x.jpg">
+    <meta property="og:locale" content="pt_BR">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- CSS base do Commerce X -->
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/animacoes.css">
     <link rel="stylesheet" href="css/selecao.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Fontes e ícones -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-<base target="_blank">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- ==========================================================
+         AJUSTES ESPECÍFICOS DO INDEX (integração JOVEMODERNO)
+         ========================================================== -->
+    <style>
+        /* ─── DEMO BAR (sticky no topo) ─── */
+        .demo-bar {
+            position: sticky; top: 0; left: 0; right: 0;
+            z-index: 500;
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 12px;
+            padding: 10px 20px;
+            padding-top: max(10px, env(safe-area-inset-top));
+            background: rgba(18, 18, 26, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.22);
+            min-height: 60px;
+            font-family: 'Inter', sans-serif;
+            color: #fff;
+        }
+        .demo-bar-left { display: flex; align-items: center; gap: 14px; flex: 1; min-width: 0; }
+        .demo-back {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            color: #a0a0b0; text-decoration: none; font-size: 1.1rem;
+            background: rgba(255,255,255,0.05);
+            transition: all 0.25s ease;
+            flex-shrink: 0;
+        }
+        .demo-back:hover { color: #fff; background: rgba(139, 92, 246, 0.3); transform: translateX(-2px); }
+        .demo-bar-info { display: flex; flex-direction: column; min-width: 0; }
+        .demo-bar-info strong { color: #ffffff; font-size: 0.92rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .demo-bar-info span { color: #6b6b7b; font-size: 0.75rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .demo-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(139, 92, 246, 0.15); color: #a78bfa;
+            padding: 5px 12px; border-radius: 100px;
+            font-size: 0.72rem; font-weight: 700;
+            border: 1px solid rgba(139, 92, 246, 0.25);
+            white-space: nowrap; flex-shrink: 0;
+        }
+        .btn-demo-cta {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 50%, #a855f7 100%);
+            color: white; border: none;
+            padding: 10px 22px;
+            border-radius: 10px;
+            font-weight: 700; font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            white-space: nowrap; flex-shrink: 0;
+            min-height: 40px;
+            font-family: inherit;
+        }
+        .btn-demo-cta:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(139, 92, 246, 0.4); }
+        .btn-demo-cta:active { transform: translateY(0); }
+
+        /* ─── HERO — melhoria de padding + feature strip ─── */
+        .hero-select {
+            padding: 4.5rem 1.5rem 2.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        .feature-strip {
+            display: flex; flex-wrap: wrap;
+            justify-content: center; gap: 0.6rem;
+            list-style: none;
+            margin: 2rem auto 0;
+            padding: 0;
+            max-width: 640px;
+        }
+        .feature-strip li {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+        .feature-strip i { color: var(--theme-primary); font-size: 0.9rem; }
+
+        /* ─── PARTICLES com animação suave ─── */
+        .particles-bg {
+            animation: floatBg 20s ease-in-out infinite;
+        }
+        @keyframes floatBg {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-15px, -15px) scale(1.03); }
+        }
+
+        /* ─── MODAL — melhorias de a11y e visual ─── */
+        .preview-close {
+            position: absolute; top: 12px; right: 14px;
+            width: 40px; height: 40px;
+            display: flex; align-items: center; justify-content: center;
+            border: none; background: transparent;
+            font-size: 1.8rem; line-height: 1;
+            color: var(--text-muted); cursor: pointer;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+            padding: 0;
+        }
+        .preview-close:hover { background: rgba(0,0,0,0.08); color: var(--text-primary); }
+        body.dark .preview-close:hover { background: rgba(255,255,255,0.08); }
+
+        .preview-content h2 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin: 0.5rem 0 0.5rem;
+            color: var(--text-primary);
+        }
+        .preview-content p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+        .preview-colors { margin: 1.25rem 0 1.5rem; }
+
+        /* ─── FOOTER ─── */
+        .demo-footer {
+            text-align: center;
+            padding: 2rem 1.5rem 2.5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            margin-top: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        .demo-footer p { margin: 0; }
+        .demo-footer a {
+            color: var(--theme-primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: opacity 0.2s;
+        }
+        .demo-footer a:hover { opacity: 0.8; text-decoration: underline; }
+
+        /* ─── RESPONSIVO MOBILE ─── */
+        @media (max-width: 768px) {
+            .demo-bar { padding: 8px 12px; gap: 8px; }
+            .demo-bar-left { gap: 10px; }
+            .demo-bar-info span { display: none; }
+            .demo-bar-info strong { font-size: 0.82rem; }
+            .demo-badge { display: none; }
+            .btn-demo-cta { padding: 8px 14px; font-size: 0.78rem; gap: 6px; min-height: 38px; }
+            .btn-demo-cta .btn-text { display: inline; }
+
+            .hero-select { padding: 2.5rem 1.25rem 1.5rem; }
+            .feature-strip { gap: 0.4rem; margin-top: 1.5rem; }
+            .feature-strip li { padding: 0.4rem 0.75rem; font-size: 0.72rem; }
+            .feature-strip i { font-size: 0.8rem; }
+
+            .demo-footer { padding: 1.5rem 1rem 2rem; font-size: 0.78rem; }
+        }
+
+        @media (max-width: 480px) {
+            .demo-bar { padding: 6px 10px; }
+            .demo-bar-info strong { font-size: 0.75rem; }
+            .demo-back { width: 32px; height: 32px; font-size: 1rem; }
+            .btn-demo-cta { padding: 7px 12px; font-size: 0.72rem; min-height: 34px; }
+            .btn-demo-cta .btn-text { display: none; }
+
+            .hero-select { padding: 2rem 1rem 1.25rem; }
+            .hero-badge { font-size: 0.78rem; padding: 0.35rem 0.9rem; }
+            .hero-title { font-size: clamp(2.2rem, 10vw, 3rem); }
+            .hero-subtitle { font-size: 0.95rem; }
+            .feature-strip li { padding: 0.35rem 0.65rem; font-size: 0.68rem; }
+        }
+
+        /* ─── PREFER-REDUCED-MOTION ─── */
+        @media (prefers-reduced-motion: reduce) {
+            .particles-bg, .pulse, .bounce { animation: none !important; }
+        }
+    </style>
+
+    <base target="_blank">
 </head>
 <body class="page-index">
-    <!-- Botão Voltar ao Portfólio -->
-    <a href="../../index.html" class="voltar-portfolio" title="Voltar ao portfólio JoveModerno">
-        <i class="fas fa-arrow-left"></i>
-        Portfólio
-    </a>
 
-    <div class="particles-bg" id="particlesBg"></div>
+    <!-- ═══════════ DEMO BAR (JOVEMODERNO) ═══════════ -->
+    <div class="demo-bar">
+        <div class="demo-bar-left">
+            <a href="../../categorias/comercio.html" class="demo-back" target="_self" aria-label="Voltar ao catálogo JOVEMODERNO">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <div class="demo-bar-info">
+                <strong>🛒 Commerce X — Template Comercial</strong>
+                <span>Preview do template • Catálogo JOVEMODERNO</span>
+            </div>
+            <span class="demo-badge">✓ Multi-nicho</span>
+            <span class="demo-badge">✓ E-commerce</span>
+            <span class="demo-badge">✓ Carrinho</span>
+        </div>
+        <button class="btn-demo-cta" onclick="queroEsseSiteCommerceX()" aria-label="Solicitar orçamento via WhatsApp">
+            💬 <span class="btn-text">Quero esse site</span>
+        </button>
+    </div>
 
+    <!-- ═══════════ BACKGROUND ANIMADO ═══════════ -->
+    <div class="particles-bg" id="particlesBg" aria-hidden="true"></div>
+
+    <!-- ═══════════ HERO ═══════════ -->
     <header class="hero-select">
-        <div class="hero-badge">✨ Jovemoderno apresenta</div>
+        <div class="hero-badge">✨ JOVEMODERNO apresenta</div>
         <h1 class="hero-title">
             <span class="gradient-text">Commerce X</span>
         </h1>
@@ -30,34 +245,101 @@
             Um template. <strong>Infinitas possibilidades.</strong><br>
             Escolha seu nicho e veja a mágica acontecer.
         </p>
+
+        <ul class="feature-strip">
+            <li><i class="fas fa-store"></i> Multi-nicho</li>
+            <li><i class="fas fa-shopping-cart"></i> E-commerce</li>
+            <li><i class="fas fa-palette"></i> Temas dinâmicos</li>
+            <li><i class="fas fa-mobile-alt"></i> 100% responsivo</li>
+        </ul>
+
         <div class="scroll-hint">
             <span>Role para escolher</span>
-            <i class="fas fa-chevron-down bounce"></i>
+            <i class="fas fa-chevron-down bounce" aria-hidden="true"></i>
         </div>
     </header>
 
-    <main class="niche-grid" id="nicheGrid">
-        <!-- Populado via JS -->
-    </main>
+    <!-- ═══════════ GRADE DE NICHOS (populada via JS) ═══════════ -->
+    <main class="niche-grid" id="nicheGrid" aria-live="polite"></main>
 
-    <div class="preview-modal" id="previewModal">
+    <!-- ═══════════ MODAL DE PREVIEW ═══════════ -->
+    <div class="preview-modal" id="previewModal" role="dialog" aria-modal="true" aria-labelledby="previewTitle">
         <div class="preview-content">
-            <span class="preview-close" id="previewClose">&times;</span>
-            <div class="preview-icon" id="previewIcon"></div>
+            <button type="button" class="preview-close" id="previewClose" aria-label="Fechar pré-visualização">&times;</button>
+            <div class="preview-icon" id="previewIcon" aria-hidden="true"></div>
             <h2 id="previewTitle"></h2>
             <p id="previewDesc"></p>
-            <div class="preview-colors" id="previewColors"></div>
-            <button class="btn-premium pulse" id="previewBtn">
+            <div class="preview-colors" id="previewColors" aria-hidden="true"></div>
+            <button type="button" class="btn-premium pulse" id="previewBtn">
                 <span>Ver Demonstração</span>
-                <i class="fas fa-arrow-right"></i>
+                <i class="fas fa-arrow-right" aria-hidden="true"></i>
             </button>
         </div>
     </div>
 
+    <!-- ═══════════ FOOTER ═══════════ -->
+    <footer class="demo-footer">
+        <p>
+            Template <strong>Commerce X</strong> · Desenvolvido por
+            <a href="../../../index.html" target="_blank" rel="noopener">JOVEMODERNO</a>
+            · © <span class="year">2026</span>
+        </p>
+    </footer>
+
+    <!-- ═══════════ SCRIPTS DO TEMPLATE ═══════════ -->
     <script src="js/data.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/transicoes.js"></script>
     <script src="js/router.js"></script>
     <script src="js/selecao.js"></script>
+
+    <!-- ═══════════ MELHORIAS (a11y + CTA) ═══════════ -->
+    <script>
+        // ─── CTA: quero esse site (via WhatsApp) ───
+        window.queroEsseSiteCommerceX = function () {
+            const message = `Olá Vitor! 👋
+
+Quero contratar o template Commerce X:
+
+📁 Categoria: Comércio
+🎨 Modelo: Commerce X (multi-nicho)
+💰 Valor: R$ 1.997
+
+Vi o modelo no catálogo da JOVEMODERNO e gostaria de mais informações sobre:
+• Prazo de entrega
+• O que está incluso
+• Formas de pagamento
+
+Aguardo seu retorno!`;
+            window.open('https://wa.me/5561999999999?text=' + encodeURIComponent(message), '_blank');
+        };
+
+        // ─── Fechar modal com Escape ───
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('previewModal');
+                if (modal && modal.classList.contains('open')) {
+                    modal.classList.remove('open');
+                }
+            }
+        });
+
+        // ─── Fechar modal ao clicar fora do conteúdo ───
+        (function () {
+            const modal = document.getElementById('previewModal');
+            if (!modal) return;
+            modal.addEventListener('click', function (e) {
+                if (e.target === modal) {
+                    modal.classList.remove('open');
+                }
+            });
+        })();
+
+        // ─── Ano dinâmico no footer ───
+        (function () {
+            const y = document.querySelector('.year');
+            if (y) y.textContent = new Date().getFullYear();
+        })();
+    </script>
 </body>
 </html>
